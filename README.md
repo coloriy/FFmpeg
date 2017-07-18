@@ -1,3 +1,8 @@
+## 2017.7.18 fork from ffmpeg release/3.3 by James
+## build for android system
+
+#####################################################
+
 FFmpeg README
 =============
 
