@@ -1,12 +1,19 @@
 #!/bin/bash
-#modify those veriable based on your env
 #===========================
-NDK=/home/lijian/Android/Sdk/ndk-bundle
-#32 or 64
-archbit=64
+#James set
+if [ -z "$ANDROID_NDK_ROOT" -o -z "$ANDROID_NDK_ROOT" ]; then
+    echo "You must define ANDROID_NDK_ROOT before starting."
+    echo "which is recommended using ndk-build in sdk folder based on android studio:"
+    echo "like this: /home/lijian/Android/Sdk/ndk-bundle"
+    exit 1
+fi
+
+#ANDROID_NDK_ROOT=/home/lijian/Android/Sdk/ndk-bundle
+#32 or 64, you can modify it based on your requirement 32 or 64.
+archbit=32
 
 #===========================
-if [ $archbit -eq 32 ];then
+if [ $archbit -eq 32 ]; then
 echo "build for 32bit"
 #32bit
 abi='armeabi'
@@ -22,8 +29,8 @@ arch='arm64'
 android='android'
 fi
 
-SYSROOT=$NDK/platforms/android-24/arch-$arch/
-TOOLCHAIN=$NDK/toolchains/$cpu-linux-$android-4.9/prebuilt/linux-x86_64
+SYSROOT=$ANDROID_NDK_ROOT/platforms/android-24/arch-$arch/
+TOOLCHAIN=$ANDROID_NDK_ROOT/toolchains/$cpu-linux-$android-4.9/prebuilt/linux-x86_64
 
 
 PREFIX=$(pwd)/android/$cpu
@@ -37,6 +44,9 @@ function build_one
     --disable-static \
     --disable-doc \
     --disable-ffserver \
+    --disable-ffplay \
+    --disable-ffprobe \
+    --disable-ffmpeg \
     --enable-yasm \
     --enable-cross-compile \
     --cross-prefix=$TOOLCHAIN/bin/$cpu-linux-$android- \
